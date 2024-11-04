@@ -2,29 +2,25 @@ const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
 
 class Apple {
-    constructor(x, y, ctx, size = 10) {
+    constructor(x, y, ctx, size = 10, color = "red") {
         this.x = x;
         this.y = y;
         this.ctx = ctx;
         this.size = size;
+        this.color = color;
     }
 
     draw() {
-        const line = new Path2D();
-        line.moveTo(this.x - this.size, this.y - this.size);
-        line.lineTo(this.x + this.size, this.y - this.size);
-        line.lineTo(this.x + this.size, this.y + this.size);
-        line.lineTo(this.x - this.size, this.y + this.size);
-        line.lineTo(this.x - this.size, this.y - this.size);
-        this.ctx.fill(line);
+        this.ctx.fillStyle = this.color;
+        this.ctx.fillRect(this.x - this.size, this.y - this.size, 2 * this.size, 2 * this.size);
+        this.ctx.fillStyle = "black";
     }
 }
 
 
 
-
 class Node {
-    constructor(x, y, ctx, size = 10, speed = 20) {
+    constructor(x, y, ctx, size = 10, speed = 20, color = "green") {
         this.x = x;
         this.y = y;
         this.prevX = x;
@@ -33,16 +29,14 @@ class Node {
         this.size = size;
         this.speed = speed;
         this.direction = "x";
+
+        this.color = color;
     }
 
     draw() {
-        const line = new Path2D();
-        line.moveTo(this.x - this.size, this.y - this.size);
-        line.lineTo(this.x + this.size, this.y - this.size);
-        line.lineTo(this.x + this.size, this.y + this.size);
-        line.lineTo(this.x - this.size, this.y + this.size);
-        line.lineTo(this.x - this.size, this.y - this.size);
-        this.ctx.stroke(line);
+        this.ctx.fillStyle = this.color;
+        this.ctx.fillRect(this.x - this.size, this.y - this.size, 2 * this.size, 2 * this.size);
+        this.ctx.fillStyle = "black";
     }
 
     changeCoords() {
@@ -91,7 +85,7 @@ class Node {
 class Snake {
     constructor(ctx) {
         this.body = [
-            new Node(30, 10, ctx),
+            new Node(30, 10, ctx, 10, 20, "orange"),
             new Node(10, 10, ctx),
         ];
         this.ctx = ctx;
@@ -171,8 +165,10 @@ class Game {
             this.apple = new Apple(row * 20 + 10, col * 20 + 10, this.ctx, 10);
             this.score++;
         }
-        ctx.font = "bold 30px serif"
+        ctx.font = "bold 30px serif";
+        ctx.fillStyle = "white";
         ctx.fillText(`Score: ${this.score}`, 30, canvas.height - 30);
+        ctx.fillStyle = "black";
     }
 
     changeDirection(dir) {
